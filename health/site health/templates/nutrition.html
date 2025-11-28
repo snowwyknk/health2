@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Правильное Питание</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>🥗 Здоровое питание - рацион на день</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">🏠 Главная</a>
+            <a href="{{ url_for('show_articles') }}">📚 Статьи</a>
+            <a href="{{ url_for('nutrition') }}">🥗 Питание</a>
+            <a href="{{ url_for('exercises') }}">💪 Упражнения</a>
+            <a href="{{ url_for('eco_tips') }}">🌍 Эко-советы</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="intro">
+            <h2>🍽️ Сбалансированный рацион на день</h2>
+            <p>Этот план питания обеспечивает все необходимые nutrients для активного дня</p>
+        </section>
+
+        <div class="nutrition-stats">
+            <div class="nutrition-stat">
+                <span class="number">1850</span>
+                <span>ккал</span>
+            </div>
+            <div class="nutrition-stat">
+                <span class="number">45%</span>
+                <span>углеводы</span>
+            </div>
+            <div class="nutrition-stat">
+                <span class="number">30%</span>
+                <span>белки</span>
+            </div>
+            <div class="nutrition-stat">
+                <span class="number">25%</span>
+                <span>жиры</span>
+            </div>
+        </div>
+
+        <div class="nutrition-grid">
+            <!-- Завтрак -->
+            <div class="meal-card">
+                <div class="meal-time">🍳 Завтрак (7:00-8:00)</div>
+                <h3>Овсяная каша с фруктами</h3>
+                <ul class="meal-list">
+                    <li>Овсяные хлопья <span class="calories-badge">150 ккал</span></li>
+                    <li>Банан <span class="calories-badge">90 ккал</span></li>
+                    <li>Миндаль <span class="calories-badge">70 ккал</span></li>
+                    <li>Мед <span class="calories-badge">30 ккал</span></li>
+                </ul>
+                <p><strong>Итого: 340 ккал</strong></p>
+            </div>
+
+            <!-- Обед -->
+            <div class="meal-card">
+                <div class="meal-time">🥗 Обед (13:00-14:00)</div>
+                <h3>Салат с куриной грудкой</h3>
+                <ul class="meal-list">
+                    <li>Куриная грудка <span class="calories-badge">165 ккал</span></li>
+                    <li>Свежие овощи <span class="calories-badge">80 ккал</span></li>
+                    <li>Оливковое масло <span class="calories-badge">120 ккал</span></li>
+                    <li>Киноа <span class="calories-badge">110 ккал</span></li>
+                </ul>
+                <p><strong>Итого: 475 ккал</strong></p>
+            </div>
+
+            <!-- Ужин -->
+            <div class="meal-card">
+                <div class="meal-time">🍲 Ужин (18:00-19:00)</div>
+                <h3>Лосось с овощами на пару</h3>
+                <ul class="meal-list">
+                    <li>Лосось <span class="calories-badge">205 ккал</span></li>
+                    <li>Брокколи <span class="calories-badge">35 ккал</span></li>
+                    <li>Морковь <span class="calories-badge">25 ккал</span></li>
+                    <li>Булгур <span class="calories-badge">100 ккал</span></li>
+                </ul>
+                <p><strong>Итого: 365 ккал</strong></p>
+            </div>
+
+            <!-- Перекусы -->
+            <div class="meal-card">
+                <div class="meal-time">🍎 Перекусы</div>
+                <h3>Здоровые перекусы в течение дня</h3>
+                <ul class="meal-list">
+                    <li>Яблоко <span class="calories-badge">50 ккал</span></li>
+                    <li>Греческий йогурт <span class="calories-badge">100 ккал</span></li>
+                    <li>Орехи <span class="calories-badge">160 ккал</span></li>
+                    <li>Зеленый чай <span class="calories-badge">0 ккал</span></li>
+                </ul>
+                <p><strong>Итого: 310 ккал</strong></p>
+            </div>
+        </div>
+        <!-- Калькулятор калорий -->
+<section class="calorie-calculator">
+    <h2>🧮 Калькулятор калорий</h2>
+    <div class="calculator-container">
+        <div class="calculator-form">
+            <div class="input-group">
+                <label for="foodName">Название продукта:</label>
+                <input type="text" id="foodName" placeholder="Например: Яблоко" class="form-input">
+            </div>
+            
+            <div class="input-group">
+                <label for="foodCalories">Калории на 100г:</label>
+                <input type="number" id="foodCalories" placeholder="52" class="form-input">
+            </div>
+            
+            <div class="input-group">
+                <label for="foodWeight">Вес порции (г):</label>
+                <input type="number" id="foodWeight" placeholder="150" class="form-input">
+            </div>
+            
+            <button onclick="calculateCalories()" class="calculate-btn">📊 Рассчитать</button>
+        </div>
+        
+        <div class="calculator-result" id="calorieResult">
+            <div class="result-placeholder">
+                <span>🔢 Введите данные для расчета</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="common-foods">
+        <h3>🍎 Популярные продукты</h3>
+        <div class="foods-grid">
+            <div class="food-item" onclick="fillFoodData('Яблоко', 52, 150)">
+                <span class="food-icon">🍎</span>
+                <span class="food-name">Яблоко</span>
+                <span class="food-calories">52 ккал/100г</span>
+            </div>
+            <div class="food-item" onclick="fillFoodData('Банан', 89, 120)">
+                <span class="food-icon">🍌</span>
+                <span class="food-name">Банан</span>
+                <span class="food-calories">89 ккал/100г</span>
+            </div>
+            <div class="food-item" onclick="fillFoodData('Куриная грудка', 165, 200)">
+                <span class="food-icon">🍗</span>
+                <span class="food-name">Куриная грудка</span>
+                <span class="food-calories">165 ккал/100г</span>
+            </div>
+            <div class="food-item" onclick="fillFoodData('Рис вареный', 130, 150)">
+                <span class="food-icon">🍚</span>
+                <span class="food-name">Рис вареный</span>
+                <span class="food-calories">130 ккал/100г</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="fish-recipes-section">
+    <h2>🐟 Здоровые рыбные рецепты</h2>
+    <p>Полезные и вкусные блюда из рыбы для вашего рациона</p>
+    <div class="fish-recipes-container">
+        <!-- Левая часть - интерактивное изображение -->
+        <div class="recipes-image">
+    <div class="recipe-image-container">
+        <div class="image-wrapper">
+            <img src="{{ url_for('static', filename='image/food.jpg') }}" 
+                 alt="Коллекция рыбных рецептов" 
+                 class="fish-recipes-img">
+        </div>
+        <div class="recipe-hotspots">
+            <div class="recipe-spot" style="top: 15%; left: 20%;" data-recipe="Фаршированный овощами окунь">
+                <div class="spot-tooltip">🐠 Окунь</div>
+            </div>
+            <div class="recipe-spot" style="top: 25%; left: 50%;" data-recipe="Лосось запеченный с овощами">
+                <div class="spot-tooltip">🐟 Лосось</div>
+            </div>
+            <div class="recipe-spot" style="top: 45%; left: 30%;" data-recipe="Рыбные котлеты">
+                <div class="spot-tooltip">🍘 Котлеты</div>
+            </div>
+            <div class="recipe-spot" style="top: 65%; left: 70%;" data-recipe="Суп с лососем">
+                <div class="spot-tooltip">🍲 Суп</div>
+            </div>
+            <div class="recipe-spot" style="top: 80%; left: 40%;" data-recipe="Фаршированная щука">
+                <div class="spot-tooltip">🎣 Щука</div>
+            </div>
+        </div>
+        
+        <!-- Индикатор скролла -->
+        <div class="scroll-indicator">
+            <span>🖱️ Колесико мыши / 👆️ Свайп для навигации</span>
+        </div>
+    </div>
+    
+    <div class="image-controls">
+        <button class="zoom-btn" onclick="toggleZoom()">🔍 Увеличить</button>
+        <button class="reset-btn" onclick="resetZoom()">⎌ Сброс</button>
+        <button class="fit-btn" onclick="fitToScreen()">📐 По размеру</button>
+    </div>
+    
+    <!-- Навигация для мобильных -->
+    <div class="mobile-nav">
+        <button class="nav-btn" onclick="zoomOut()">➖</button>
+        <button class="nav-btn" onclick="resetZoom()">⎌</button>
+        <button class="nav-btn" onclick="zoomIn()">➕</button>
+    </div>
+</div>
+            </div>
+            <div class="image-controls">
+                <button class="zoom-btn" onclick="toggleZoom()">🔍 Увеличить</button>
+                <button class="reset-btn" onclick="resetZoom()">⎌ Сброс</button>
+            </div>
+        </div>
+        
+        <!-- Правая часть - список рецептов и полезные свойства -->
+        <div class="recipes-sidebar">
+            <!-- Список рецептов -->
+            <div class="recipes-list">
+                <h3>📋 Рецепты на изображении:</h3>
+                <div class="recipes-grid">
+                    <div class="recipe-item" data-recipe="Фаршированный овощами окунь">
+                        <span class="recipe-icon">🐠</span>
+                        <span class="recipe-name">Фаршированный овощами окунь</span>
+                        <button class="recipe-btn" onclick="showRecipe('Фаршированный овощами окунь')">📖 Рецепт</button>
+                    </div>
+                    <div class="recipe-item" data-recipe="Лосось запеченный с овощами">
+                        <span class="recipe-icon">🐟</span>
+                        <span class="recipe-name">Лосось запеченный с овощами</span>
+                        <button class="recipe-btn" onclick="showRecipe('Лосось запеченный с овощами')">📖 Рецепт</button>
+                    </div>
+                    <div class="recipe-item" data-recipe="Рыбные котлеты">
+                        <span class="recipe-icon">🍘</span>
+                        <span class="recipe-name">Рыбные котлеты</span>
+                        <button class="recipe-btn" onclick="showRecipe('Рыбные котлеты')">📖 Рецепт</button>
+                    </div>
+                    <div class="recipe-item" data-recipe="Суп с лососем">
+                        <span class="recipe-icon">🍲</span>
+                        <span class="recipe-name">Суп с лососем</span>
+                        <button class="recipe-btn" onclick="showRecipe('Суп с лососем')">📖 Рецепт</button>
+                    </div>
+                    <div class="recipe-item" data-recipe="Фаршированная щука">
+                        <span class="recipe-icon">🎣</span>
+                        <span class="recipe-name">Фаршированная щука</span>
+                        <button class="recipe-btn" onclick="showRecipe('Фаршированная щука')">📖 Рецепт</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Полезные свойства рыбы -->
+            <div class="health-benefits">
+                <h3>🎣 Полезные свойства рыбы</h3>
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <span class="benefit-icon">💪</span>
+                        <div class="benefit-text">
+                            <strong>Белок</strong>
+                            <span>Для мышц</span>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">🧠</span>
+                        <div class="benefit-text">
+                            <strong>Омега-3</strong>
+                            <span>Для мозга</span>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">❤️</span>
+                        <div class="benefit-text">
+                            <strong>Здоровье сердца</strong>
+                            <span>Снижает холестерин</span>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">⚡</span>
+                        <div class="benefit-text">
+                            <strong>Легкое усвоение</strong>
+                            <span>Быстрая энергия</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nutrition-facts">
+                    <h4>🍽️ Пищевая ценность (на 100г):</h4>
+                    <div class="nutrition-grid">
+                        <div class="nutrient">
+                            <span>Белки</span>
+                            <div class="nutrient-bar">
+                                <div class="nutrient-fill protein" style="width: 80%"></div>
+                            </div>
+                            <span class="nutrient-value">20г</span>
+                        </div>
+                        <div class="nutrient">
+                            <span>Жиры</span>
+                            <div class="nutrient-bar">
+                                <div class="nutrient-fill fat" style="width: 25%"></div>
+                            </div>
+                            <span class="nutrient-value">5г</span>
+                        </div>
+                        <div class="nutrient">
+                            <span>Калории</span>
+                            <div class="nutrient-bar">
+                                <div class="nutrient-fill calories" style="width: 12%"></div>
+                            </div>
+                            <span class="nutrient-value">120 ккал</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно с деталями рецепта -->
+    <div class="recipe-details" id="recipe-details">
+        <div class="recipe-modal">
+            <button class="close-btn" onclick="closeRecipe()">✕</button>
+            <h3 id="recipe-title">Выберите рецепт</h3>
+            <div id="recipe-content">
+                <p>Нажмите на кнопку "Рецепт" для просмотра деталей приготовления</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.calorie-calculator {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin: 40px 0;
+}
+
+
+.calculator-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin: 25px 0;
+}
+
+.calculator-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-weight: 600;
+    color: var(--dark);
+}
+
+
+.calculate-btn {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.calculate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(46, 125, 50, 0.3);
+}
+
+.calculator-result {
+    background: var(--light);
+    border-radius: 15px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+}
+
+
+.result-placeholder {
+    text-align: center;
+    color: #666;
+    font-size: 1.1em;
+}
+
+
+.calorie-result {
+    text-align: center;
+    width: 100%;
+}
+
+.calorie-number {
+    font-size: 3em;
+    font-weight: bold;
+    color: var(--primary);
+    margin: 10px 0;
+}
+
+.calorie-details {
+    margin: 15px 0;
+    line-height: 1.6;
+}
+
+.calorie-bar {
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.calorie-progress {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 4px;
+    transition: width 1s ease;
+}
+
+.common-foods {
+    margin-top: 40px;
+}
+
+.foods-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.food-item {
+    background: var(--light);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+
+.food-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.food-icon {
+    font-size: 2em;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.food-name {
+    font-weight: 600;
+    color: var(--dark);
+    display: block;
+}
+
+
+.food-calories {
+    font-size: 0.9em;
+    color: #666;
+    display: block;
+}
+
+
+/* Анимация результата */
+@keyframes resultPop {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.result-animate {
+    animation: resultPop 0.6s ease-out;
+}
+</style>
+
+<script>
+    // База данных с рецептами рыбы
+const recipes = {
+    'Фаршированный овощами окунь': {
+        ingredients: [
+            'Окунь свежий - 1 шт (около 500г)',
+            'Морковь - 1 шт',
+            'Лук репчатый - 1 шт',
+            'Болгарский перец - 1 шт',
+            'Зелень (петрушка, укроп) - пучок',
+            'Лимон - ½ шт',
+            'Оливковое масло - 2 ст.л.',
+            'Соль, перец - по вкусу'
+        ],
+        steps: [
+            'Рыбу почистить, удалить жабры и внутренности',
+            'Овощи нарезать мелким кубиком и обжарить 5 минут',
+            'Нафаршировать рыбу овощной смесью',
+            'Сбрызнуть лимонным соком и оливковым маслом',
+            'Запекать 25-30 минут при 180°C до золотистой корочки'
+        ],
+        calories: 150,
+        time: '45 мин',
+        difficulty: '🟡 Средняя',
+        tips: 'Подавать с свежими овощами и долькой лимона'
+    },
+    'Лосось запеченный с овощами': {
+        ingredients: [
+            'Филе лосося - 300г',
+            'Брокколи - 200г',
+            'Морковь - 2 шт',
+            'Цукини - 1 шт',
+            'Лимон - 1 шт',
+            'Чеснок - 2 зубчика',
+            'Оливковое масло - 3 ст.л.',
+            'Специи для рыбы'
+        ],
+        steps: [
+            'Овощи нарезать крупными кусками',
+            'Выложить на противень с пергаментом',
+            'Рыбу посолить, поперчить, сбрызнуть маслом',
+            'Разложить поверх овощей',
+            'Запекать 20-25 минут при 200°C'
+        ],
+        calories: 220,
+        time: '35 мин',
+        difficulty: '🟢 Легкая',
+        tips: 'Не перепекайте лосось - он должен остаться сочным'
+    },
+    'Рыбные котлеты': {
+        ingredients: [
+            'Филе рыбы (судак, треска) - 500г',
+            'Лук репчатый - 1 шт',
+            'Яйцо - 1 шт',
+            'Панировочные сухари - 3 ст.л.',
+            'Сливки 10% - 50 мл',
+            'Зелень - по вкусу',
+            'Растительное масло для жарки'
+        ],
+        steps: [
+            'Рыбу и лук измельчить в блендере',
+            'Добавить яйцо, сухари, сливки и зелень',
+            'Тщательно вымешать фарш',
+            'Сформировать котлеты',
+            'Обжарить с двух сторон до золотистой корочки'
+        ],
+        calories: 180,
+        time: '30 мин',
+        difficulty: '🟢 Легкая',
+        tips: 'Для диетического варианта запекайте в духовке'
+    },
+    'Суп с лососем': {
+        ingredients: [
+            'Лосось - 200г',
+            'Картофель - 3 шт',
+            'Морковь - 1 шт',
+            'Лук - 1 шт',
+            'Сельдерей - 1 стебель',
+            'Сливки 10% - 100 мл',
+            'Укроп - пучок',
+            'Лавровый лист - 1 шт'
+        ],
+        steps: [
+            'Сварить бульон из овощей 15 минут',
+            'Добавить нарезанный картофель',
+            'Через 10 минут добавить рыбу',
+            'Варить 7-10 минут до готовности рыбы',
+            'Влить сливки, добавить зелень'
+        ],
+        calories: 120,
+        time: '40 мин',
+        difficulty: '🟢 Легкая',
+        tips: 'Не кипятите суп после добавления сливок'
+    },
+    'Фаршированная щука': {
+        ingredients: [
+            'Щука - 1 шт (около 1 кг)',
+            'Грибы шампиньоны - 200г',
+            'Лук - 2 шт',
+            'Яйцо - 1 шт',
+            'Белый хлеб - 2 ломтика',
+            'Сметана - 3 ст.л.',
+            'Специи - по вкусу'
+        ],
+        steps: [
+            'Щуку почистить, аккуратно снять кожу "чулком"',
+            'Грибы и лук обжарить, смешать с хлебом и яйцом',
+            'Нафаршировать кожу рыбы полученной массой',
+            'Выложить в форму, полить сметаной',
+            'Запекать 40 минут при 180°C'
+        ],
+        calories: 160,
+        time: '60 мин',
+        difficulty: '🔴 Сложная',
+        tips: 'Подавать с отварным картофелем и солеными огурцами'
+    }
+};
+
+// Переменные для скролла изображения
+let isDragging = false;
+let startX, startY, scrollLeft, scrollTop;
+
+// Показать рецепт в модальном окне
+function showRecipe(recipeName) {
+    const recipe = recipes[recipeName];
+    if (!recipe) return;
+    
+    // Заполняем модальное окно информацией о рецепте
+    document.getElementById('recipe-title').textContent = recipeName;
+    document.getElementById('recipe-content').innerHTML = `
+        <div class="recipe-meta">
+            <span>⏱️ ${recipe.time}</span>
+            <span>🔥 ${recipe.calories} ккал</span>
+            <span>${recipe.difficulty}</span>
+        </div>
+        
+        <h4>🥕 Ингредиенты:</h4>
+        <ul>
+            ${recipe.ingredients.map(ing => `<li>${ing}</li>`).join('')}
+        </ul>
+        
+        <h4>👨‍🍳 Приготовление:</h4>
+        <ol>
+            ${recipe.steps.map(step => `<li>${step}</li>`).join('')}
+        </ol>
+        
+        ${recipe.tips ? `<h4>💡 Советы:</h4><p>${recipe.tips}</p>` : ''}
+    `;
+    
+    // Показываем модальное окно
+    document.getElementById('recipe-details').style.display = 'flex';
+}
+
+// Закрыть модальное окно с рецептом
+function closeRecipe() {
+    document.getElementById('recipe-details').style.display = 'none';
+}
+
+// Включить/выключить режим увеличения
+function toggleZoom() {
+    const image = document.querySelector('.fish-recipes-img');
+    const btn = document.querySelector('.zoom-btn');
+    
+    if (image.classList.contains('zoomed')) {
+        // Выключаем увеличение
+        image.classList.remove('zoomed');
+        image.style.transform = 'scale(1)';
+        btn.textContent = '🔍 Увеличить';
+    } else {
+        // Включаем увеличение
+        image.classList.add('zoomed');
+        image.style.transform = 'scale(1.5)';
+        btn.textContent = '🔍 Уменьшить';
+    }
+}
+
+// Сбросить увеличение и позицию
+function resetZoom() {
+    const image = document.querySelector('.fish-recipes-img');
+    const imageWrapper = document.querySelector('.image-wrapper');
+    
+    image.classList.remove('zoomed');
+    image.style.transform = 'scale(1)';
+    imageWrapper.scrollLeft = 0;
+    imageWrapper.scrollTop = 0;
+    
+    document.querySelector('.zoom-btn').textContent = '🔍 Увеличить';
+}
+
+// Подогнать изображение по размеру экрана
+function fitToScreen() {
+    const image = document.querySelector('.fish-recipes-img');
+    const imageWrapper = document.querySelector('.image-wrapper');
+    
+    image.style.transform = 'scale(1)';
+    image.classList.remove('zoomed');
+    imageWrapper.scrollLeft = 0;
+    imageWrapper.scrollTop = 0;
+}
+
+// Увеличить изображение
+function zoomIn() {
+    const image = document.querySelector('.fish-recipes-img');
+    const currentScale = parseFloat(image.style.transform.replace('scale(', '').replace(')', '')) || 1;
+    const newScale = Math.min(3, currentScale + 0.5);
+    
+    image.style.transform = `scale(${newScale})`;
+    image.classList.add('zoomed');
+}
+
+// Уменьшить изображение
+function zoomOut() {
+    const image = document.querySelector('.fish-recipes-img');
+    const currentScale = parseFloat(image.style.transform.replace('scale(', '').replace(')', '')) || 1;
+    const newScale = Math.max(1, currentScale - 0.5);
+    
+    image.style.transform = `scale(${newScale})`;
+    
+    if (newScale === 1) {
+        image.classList.remove('zoomed');
+    }
+}
+
+// Инициализация скролла изображения
+function initImageScroll() {
+    const imageWrapper = document.querySelector('.image-wrapper');
+    const image = document.querySelector('.fish-recipes-img');
+    const container = document.querySelector('.recipe-image-container');
+    
+    // Обработчик колесика мыши для горизонтального скролла
+    imageWrapper.addEventListener('wheel', function(e) {
+        if (image.classList.contains('zoomed')) {
+            e.preventDefault();
+            this.scrollLeft += e.deltaY;
+        }
+    });
+    
+    // Обработчики для перетаскивания мышью
+    imageWrapper.addEventListener('mousedown', function(e) {
+        if (image.classList.contains('zoomed')) {
+            isDragging = true;
+            startX = e.pageX - this.offsetLeft;
+            startY = e.pageY - this.offsetTop;
+            scrollLeft = this.scrollLeft;
+            scrollTop = this.scrollTop;
+            this.style.cursor = 'grabbing';
+        }
+    });
+    
+    imageWrapper.addEventListener('mouseleave', function() {
+        isDragging = false;
+        this.style.cursor = 'grab';
+    });
+    
+    imageWrapper.addEventListener('mouseup', function() {
+        isDragging = false;
+        this.style.cursor = 'grab';
+    });
+    
+    imageWrapper.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        
+        const x = e.pageX - this.offsetLeft;
+        const y = e.pageY - this.offsetTop;
+        const walkX = (x - startX) * 2;
+        const walkY = (y - startY) * 2;
+        
+        this.scrollLeft = scrollLeft - walkX;
+        this.scrollTop = scrollTop - walkY;
+    });
+    
+    // Обработчики для касаний на мобильных
+    let startTouches = [];
+    
+    imageWrapper.addEventListener('touchstart', function(e) {
+        if (image.classList.contains('zoomed')) {
+            startTouches = e.touches;
+            container.classList.add('touched');
+        }
+    }, { passive: true });
+    
+    imageWrapper.addEventListener('touchmove', function(e) {
+        if (image.classList.contains('zoomed') && startTouches.length === 1) {
+            e.preventDefault();
+            
+            const touch = e.touches[0];
+            const startTouch = startTouches[0];
+            
+            const deltaX = startTouch.clientX - touch.clientX;
+            const deltaY = startTouch.clientY - touch.clientY;
+            
+            this.scrollLeft += deltaX * 2;
+            this.scrollTop += deltaY * 2;
+            
+            startTouches = e.touches;
+        }
+    }, { passive: false });
+}
+
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    // Инициализируем скролл изображения
+    initImageScroll();
+    
+    // Добавляем обработчики для точек на изображении
+    document.querySelectorAll('.recipe-spot').forEach(spot => {
+        spot.addEventListener('click', function() {
+            const recipeName = this.getAttribute('data-recipe');
+            showRecipe(recipeName);
+            
+            // Анимация точки
+            this.classList.add('active');
+            setTimeout(() => {
+                this.classList.remove('active');
+            }, 1000);
+        });
+    });
+    
+    // Добавляем обработчики для кнопок рецептов в списке
+    document.querySelectorAll('.recipe-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const recipeItem = this.closest('.recipe-item');
+            const recipeName = recipeItem.getAttribute('data-recipe');
+            showRecipe(recipeName);
+        });
+    });
+    
+    // Закрытие модального окна по клику вне его
+    document.getElementById('recipe-details').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeRecipe();
+        }
+    });
+    
+    // Закрытие модального окна по клавише ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeRecipe();
+        }
+    });
+    
+    // Скрываем индикатор скролла после первого взаимодействия
+    const container = document.querySelector('.recipe-image-container');
+    container.addEventListener('touchstart', function() {
+        this.classList.add('touched');
+    });
+    
+    container.addEventListener('mousedown', function() {
+        this.classList.add('touched');
+    });
+});
+function calculateCalories() {
+    const foodName = document.getElementById('foodName').value;
+    const caloriesPer100g = parseFloat(document.getElementById('foodCalories').value);
+    const weight = parseFloat(document.getElementById('foodWeight').value);
+    
+    if (!foodName || !caloriesPer100g || !weight) {
+        alert('Пожалуйста, заполните все поля!');
+        return;
+    }
+    
+    const totalCalories = (caloriesPer100g * weight) / 100;
+    const percentage = (totalCalories / 1850 * 100).toFixed(1);
+    
+    const resultHTML = `
+        <div class="calorie-result result-animate">
+            <h3>🍽️ ${foodName}</h3>
+            <div class="calorie-number">${totalCalories.toFixed(1)} ккал</div>
+            <div class="calorie-details">
+                <p>Порция: <strong>${weight}г</strong></p>
+                <p>Калорийность: <strong>${caloriesPer100g} ккал/100г</strong></p>
+                <p>Это <strong>${percentage}%</strong> от дневной нормы (1850 ккал)</p>
+            </div>
+            <div class="calorie-bar">
+                <div class="calorie-progress" style="width: ${Math.min(percentage, 100)}%"></div>
+            </div>
+            <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                ${percentage > 100 ? '⚠️ Превышена дневная норма!' : '✅ В пределах нормы'}
+            </p>
+        </div>
+    `;
+    
+    document.getElementById('calorieResult').innerHTML = resultHTML;
+    
+    // Сохраняем историю
+    saveToHistory(foodName, totalCalories);
+}
+
+function fillFoodData(name, calories, weight) {
+    document.getElementById('foodName').value = name;
+    document.getElementById('foodCalories').value = calories;
+    document.getElementById('foodWeight').value = weight;
+    
+    // Анимация кнопки
+    const button = document.querySelector('.calculate-btn');
+    button.style.transform = 'scale(1.05)';
+    setTimeout(() => {
+        button.style.transform = 'scale(1)';
+    }, 200);
+}
+
+function saveToHistory(foodName, calories) {
+    let history = JSON.parse(localStorage.getItem('calorieHistory')) || [];
+    history.unshift({
+        name: foodName,
+        calories: calories,
+        date: new Date().toLocaleString()
+    });
+    
+    // Сохраняем только последние 10 записей
+    history = history.slice(0, 10);
+    localStorage.setItem('calorieHistory', JSON.stringify(history));
+}
+</script>
+        <section class="food-tips">
+            <h2>📋 5 золотых правил здорового питания:</h2>
+            <ol>
+                <li>🥬 Ешьте больше овощей и фруктов (5-7 порций в день)</li>
+                <li>💧 Пейте воду вместо сладких напитков (1.5-2 л в день)</li>
+                <li>🌾 Выбирайте цельнозерновые продукты</li>
+                <li>🚫 Ограничьте фастфуд и обработанные продукты</li>
+                <li>⚖️ Контролируйте размер порций</li>
+            </ol>
+        </section>
+
+        <section class="progress-section">
+            <h3>📊 Выполнение плана питания сегодня</h3>
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Завтрак</span>
+                    <span>✅ Завершен</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 100%">100%</div>
+                </div>
+            </div>
+            
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Обед</span>
+                    <span>🔄 В процессе</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 30%">30%</div>
+                </div>
+            </div>
+            
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Ужин</span>
+                    <span>⏳ Ожидает</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 0%">0%</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Твой Гид по Здоровью и Устойчивому Развитию</p>
+    </footer>
+</body>
+</html>

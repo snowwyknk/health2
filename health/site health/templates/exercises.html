@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Упражнения на день</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>💪 Комплекс упражнений на день</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">🏠 Главная</a>
+            <a href="{{ url_for('show_articles') }}">📚 Статьи</a>
+            <a href="{{ url_for('nutrition') }}">🥗 Питание</a>
+            <a href="{{ url_for('exercises') }}">💪 Упражнения</a>
+            <a href="{{ url_for('eco_tips') }}">🌍 Эко-советы</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="intro">
+            <h2>🏃 Ежедневный фитнес-план</h2>
+            <p>Этот комплекс подходит для выполнения дома без специального оборудования. Общее время: 25-30 минут</p>
+        </section>
+
+        <div class="exercise-grid">
+            <!-- Утренняя зарядка -->
+            <div class="exercise-card">
+                <h3>🌅 Утренняя разминка (5 минут)</h3>
+                <ul class="exercise-list">
+                    <li>Вращение головой <span class="time-badge">30 сек</span></li>
+                    <li>Вращение плечами <span class="time-badge">30 сек</span></li>
+                    <li>Наклоны туловища <span class="time-badge">1 мин</span></li>
+                    <li>Приседания <span class="time-badge">1 мин</span></li>
+                    <li>Бег на месте <span class="time-badge">2 мин</span></li>
+                </ul>
+            </div>
+
+            <!-- Основная тренировка -->
+            <div class="exercise-card">
+                <h3>🔥 Основная тренировка (15 минут)</h3>
+                <ul class="exercise-list">
+                    <li>Планка <span class="time-badge">3×30 сек</span></li>
+                    <li>Отжимания <span class="time-badge">3×10 раз</span></li>
+                    <li>Приседания с прыжком <span class="time-badge">3×15 раз</span></li>
+                    <li>Выпады <span class="time-badge">3×10 на ногу</span></li>
+                    <li>Скручивания <span class="time-badge">3×15 раз</span></li>
+                    <li>Подтягивания <span class="time-badge">3×10 раз</span></li>
+                </ul>
+            </div>
+
+            <!-- Вечерняя растяжка -->
+            <div class="exercise-card">
+                <h3>🌙 Вечерняя растяжка (5 минут)</h3>
+                <ul class="exercise-list">
+                    <li>Растяжка шеи <span class="time-badge">30 сек</span></li>
+                    <li>Наклоны к ногам <span class="time-badge">1 мин</span></li>
+                    <li>Растяжка бедер <span class="time-badge">1 мин</span></li>
+                    <li>Поза ребенка <span class="time-badge">1 мин</span></li>
+                    <li>Глубокое дыхание <span class="time-badge">1 мин</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Таймер тренировки -->
+<section class="timer-section">
+    <h2>⏱️ Таймер интервальной тренировки</h2>
+    <div class="timer-container">
+        <div class="timer-display">
+            <div class="time" id="timer-display">10:00</div>
+            <div class="timer-label" id="timer-label">Готовность</div>
+        </div>
+        
+        <div class="timer-controls">
+            <button onclick="startTimer()" class="timer-btn start">▶️ Старт</button>
+            <button onclick="pauseTimer()" class="timer-btn pause">⏸️ Пауза</button>
+            <button onclick="resetTimer()" class="timer-btn reset">🔄 Сброс</button>
+        </div>
+        
+        <div class="timer-presets">
+            <button onclick="setTimer(5 * 60)" class="preset-btn">5 мин</button>
+            <button onclick="setTimer(10 * 60)" class="preset-btn">10 мин</button>
+            <button onclick="setTimer(15 * 60)" class="preset-btn">15 мин</button>
+            <button onclick="setTimer(20 * 60)" class="preset-btn">20 мин</button>
+        </div>
+        
+        <div class="timer-stats">
+            <div class="stat">
+                <span class="stat-number" id="sessions-count">0</span>
+                <span class="stat-label">тренировок</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" id="total-time">0</span>
+                <span class="stat-label">минут всего</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.timer-section {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin: 40px 0;
+    text-align: center;
+}
+
+.timer-container {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.timer-display {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    padding: 40px 20px;
+    border-radius: 20px;
+    margin: 25px 0;
+    box-shadow: 0 10px 30px rgba(46, 125, 50, 0.3);
+}
+
+.time {
+    font-size: 4em;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 10px;
+}
+
+.timer-label {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+.timer-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.timer-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 100px;
+}
+
+.timer-btn.start { background: #4CAF50; color: white; }
+.timer-btn.pause { background: #FF9800; color: white; }
+.timer-btn.reset { background: #f44336; color: white; }
+
+.timer-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.timer-presets {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.preset-btn {
+    padding: 10px 15px;
+    background: var(--light);
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--primary);
+    font-weight: 500;
+}
+
+.preset-btn:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.timer-stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 2px solid var(--light);
+}
+
+.timer-stats .stat {
+    text-align: center;
+}
+
+.timer-stats .stat-number {
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--primary);
+    display: block;
+}
+
+.timer-stats .stat-label {
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* Анимация таймера */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.timer-pulse {
+    animation: pulse 1s infinite;
+}
+
+.warning {
+    color: #ffeb3b !important;
+}
+
+.danger {
+    color: #ff4757 !important;
+    animation: pulse 0.5s infinite;
+}
+</style>
+
+<script>
+let timer;
+let timeLeft = 10 * 60; // 10 минут в секундах
+let isRunning = false;
+let totalSessions = 0;
+let totalMinutes = 0;
+
+// Загружаем статистику
+function loadStats() {
+    totalSessions = parseInt(localStorage.getItem('totalSessions')) || 0;
+    totalMinutes = parseInt(localStorage.getItem('totalMinutes')) || 0;
+    updateStats();
+}
+
+// Сохраняем статистику
+function saveStats() {
+    localStorage.setItem('totalSessions', totalSessions);
+    localStorage.setItem('totalMinutes', totalMinutes);
+}
+
+function startTimer() {
+    if (!isRunning && timeLeft > 0) {
+        isRunning = true;
+        timer = setInterval(updateTimer, 1000);
+        document.getElementById('timer-label').textContent = 'Тренировка...';
+        document.querySelector('.timer-display').classList.add('timer-pulse');
+    }
+}
+
+function pauseTimer() {
+    isRunning = false;
+    clearInterval(timer);
+    document.getElementById('timer-label').textContent = 'Пауза';
+    document.querySelector('.timer-display').classList.remove('timer-pulse');
+}
+
+function resetTimer() {
+    isRunning = false;
+    clearInterval(timer);
+    timeLeft = 10 * 60;
+    updateDisplay();
+    document.getElementById('timer-label').textContent = 'Готовность';
+    document.querySelector('.timer-display').classList.remove('timer-pulse', 'warning', 'danger');
+}
+
+function setTimer(seconds) {
+    if (!isRunning) {
+        timeLeft = seconds;
+        updateDisplay();
+        resetTimer(); // Сбрасываем состояние
+    }
+}
+
+function updateTimer() {
+    if (timeLeft <= 0) {
+        // Таймер завершен
+        clearInterval(timer);
+        isRunning = false;
+        completeSession();
+        return;
+    }
+    
+    timeLeft--;
+    updateDisplay();
+    
+    // Визуальные эффекты
+    if (timeLeft <= 30) {
+        document.querySelector('.timer-display').classList.add('danger');
+        document.querySelector('.timer-display').classList.remove('warning');
+    } else if (timeLeft <= 60) {
+        document.querySelector('.timer-display').classList.add('warning');
+    }
+}
+
+function updateDisplay() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    document.getElementById('timer-display').textContent = 
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
+
+function completeSession() {
+    // Показываем уведомление
+    showCompletionAlert();
+    
+    // Обновляем статистику
+    totalSessions++;
+    totalMinutes += Math.ceil((10 * 60 - timeLeft) / 60);
+    updateStats();
+    saveStats();
+    
+    // Сбрасываем таймер
+    resetTimer();
+}
+
+function showCompletionAlert() {
+    const alert = document.createElement('div');
+    alert.innerHTML = `
+        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                   background: linear-gradient(135deg, #4CAF50, #45a049); color: white; 
+                   padding: 30px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+                   text-align: center; z-index: 1000; max-width: 300px;">
+            <h3 style="margin-bottom: 15px; font-size: 1.5em;">🎉 Тренировка завершена!</h3>
+            <p>Отличная работа! Ты становишься лучше с каждой тренировкой! 💪</p>
+            <button onclick="this.parentElement.remove()" 
+                    style="background: white; color: #4CAF50; border: none; 
+                           padding: 10px 20px; border-radius: 10px; cursor: pointer; margin-top: 15px;">
+                Супер!
+            </button>
+        </div>
+    `;
+    document.body.appendChild(alert);
+}
+
+function updateStats() {
+    document.getElementById('sessions-count').textContent = totalSessions;
+    document.getElementById('total-time').textContent = totalMinutes;
+}
+
+// Инициализация
+document.addEventListener('DOMContentLoaded', function() {
+    loadStats();
+    updateDisplay();
+});
+</script>
+
+        <section class="progress-section">
+            <h3>📊 Прогресс за сегодня</h3>
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Утренняя разминка</span>
+                    <span>✅ Завершено</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 100%">100%</div>
+                </div>
+            </div>
+            
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Основная тренировка</span>
+                    <span>🔄 В процессе</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 60%">60%</div>
+                </div>
+            </div>
+            
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Вечерняя растяжка</span>
+                    <span>⏳ Ожидает</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 0%">0%</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="motivation">
+            <h3>💫 Советы для успеха</h3>
+            <div class="impact-grid">
+                <div class="impact-item">
+                    <h4>⏰ Регулярность</h4>
+                    <p>Занимайтесь в одно и то же время каждый день</p>
+                </div>
+                <div class="impact-item">
+                    <h4>💧 Гидратация</h4>
+                    <p>Пейте воду до, во время и после тренировки</p>
+                </div>
+                <div class="impact-item">
+                    <h4>🎵 Музыка</h4>
+                    <p>Включите любимую музыку для мотивации</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Твой Гид по Здоровью и Устойчивому Развитию</p>
+    </footer>
+</body>
+</html>
