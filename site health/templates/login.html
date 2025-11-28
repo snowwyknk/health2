@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход - Ваш путь к здоровью</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .social-login {
+    margin: 25px 0;
+    text-align: center;
+}
+
+.social-divider {
+    position: relative;
+    text-align: center;
+    margin: 25px 0;
+    color: #666;
+}
+
+.social-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e0e0e0;
+}
+
+.social-divider span {
+    background: white;
+    padding: 0 15px;
+    position: relative;
+}
+
+.social-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.social-btn {
+    padding: 12px 24px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 120px;
+    justify-content: center;
+}
+
+.social-btn.google {
+    border-color: #4285F4;
+    color: #4285F4;
+}
+
+.social-btn.telegram {
+    border-color: #0088cc;
+    color: #0088cc;
+}
+
+.social-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.social-btn.google:hover {
+    background: #4285F4;
+    color: white;
+}
+
+.social-btn.telegram:hover {
+    background: #0088cc;
+    color: white;
+}
+
+/* Стили для модального окна */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal h3 {
+    color: var(--primary);
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+.modal p {
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.modal-close {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+    background: var(--dark);
+    transform: translateY(-2px);
+}
+
+        .login-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .login-left {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.8) 100%);
+            backdrop-filter: blur(10px);
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-right {
+            background: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80') center/cover;
+            position: relative;
+        }
+
+        .login-right::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(46, 125, 50, 0.8) 0%, rgba(27, 94, 32, 0.9) 100%);
+        }
+
+        .login-header {
+    margin-bottom: 40px;
+}
+
+.login-header h1 {
+    color: var(--dark);
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+    -webkit-background-clip: text;
+    background-clip: text; /* Стандартное свойство для совместимости */
+    -webkit-text-fill-color: transparent;
+}
+
+.login-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+        .form-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 1.2em;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+            outline: none;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.3);
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+        }
+
+        .login-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .social-login {
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .social-divider {
+            position: relative;
+            text-align: center;
+            margin: 25px 0;
+            color: #666;
+        }
+
+        .social-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .social-divider span {
+            background: white;
+            padding: 0 15px;
+            position: relative;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .social-btn {
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .social-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .login-right {
+                display: none;
+            }
+            
+            .login-left {
+                padding: 40px 20px;
+            }
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+
+        .alert.error {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-left">
+            <div class="login-header animate-fade-in">
+                <h1>🔑 С возвращением!</h1>
+                <p>Продолжайте свой путь к здоровому образу жизни</p>
+            </div>
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="alert error animate-fade-in">
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" class="login-form animate-fade-in">
+                <div class="form-group">
+                    <span class="form-icon">👤</span>
+                    <input type="text" name="username" class="form-input" placeholder="Имя пользователя" required>
+                </div>
+
+                <div class="form-group">
+                    <span class="form-icon">🔒</span>
+                    <input type="password" name="password" class="form-input" placeholder="Пароль" required>
+                </div>
+
+                <button type="submit" class="login-btn">
+                    🚀 Войти в аккаунт
+                </button>
+            </form>
+
+            <div class="social-login animate-fade-in">
+                <div class="social-divider">
+                    <span>Или войдите через</span>
+                </div>
+                <div class="social-buttons">
+                    <button type="button" class="social-btn">
+                        <span>📱</span> Google
+                    </button>
+                    <button type="button" class="social-btn">
+                        <span>💙</span> Facebook
+                    </button>
+                </div>
+            </div>
+
+            <div class="login-footer animate-fade-in">
+                <p>Еще нет аккаунта? <a href="{{ url_for('register') }}">Зарегистрируйтесь здесь</a></p>
+            </div>
+        </div>
+
+        <div class="login-right">
+            <div style="position: relative; z-index: 2; color: white; padding: 60px; height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                <div class="animate-fade-in">
+                    <h2 style="font-size: 2.5em; margin-bottom: 20px; line-height: 1.2;">Рады снова видеть вас!</h2>
+                    <p style="font-size: 1.2em; margin-bottom: 30px; opacity: 0.9;">
+                        Возвращайтесь к вашему персональному плану развития, трекеру прогресса 
+                        и сообществу единомышленников.
+                    </p>
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 12px; backdrop-filter: blur(10px);">
+                        <h3 style="margin-bottom: 15px;">📈 Ваш прогресс ждет вас:</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 5px 0;">✓ Персональные рекомендации</li>
+                            <li style="padding: 5px 0;">✓ Новые статьи и советы</li>
+                            <li style="padding: 5px 0;">✓ Обновления сообщества</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

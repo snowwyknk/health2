@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация - Начните свой путь к здоровью</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+         .register-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .register-left {
+        background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.8) 100%);
+        backdrop-filter: blur(10px);
+        padding: 60px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .register-right {
+        background: url('https://images.unsplash.com/photo-1490818387583-1baba5e638af?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80') center/cover;
+        position: relative;
+    }
+
+    .register-right::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(46, 125, 50, 0.8) 0%, rgba(27, 94, 32, 0.9) 100%);
+    }
+
+    .register-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .register-header h1 {
+        color: var(--dark);
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .register-header p {
+        color: #666;
+        font-size: 1.1em;
+    }
+
+    .register-form {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+        position: relative;
+    }
+
+    .form-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary);
+        font-size: 1.2em;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 15px 15px 15px 50px;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+    .form-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        outline: none;
+    }
+
+    .password-strength {
+        margin-top: 8px;
+        height: 4px;
+        background: #e0e0e0;
+        border-radius: 2px;
+        overflow: hidden;
+    }
+
+    .strength-bar {
+        height: 100%;
+        width: 0%;
+        transition: all 0.3s ease;
+        border-radius: 2px;
+    }
+
+    .strength-weak { background: #ff4757; width: 33%; }
+    .strength-medium { background: #ffa502; width: 66%; }
+    .strength-strong { background: #2ed573; width: 100%; }
+
+    .terms-group {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin: 25px 0;
+    }
+
+    .terms-group input[type="checkbox"] {
+        margin-top: 2px;
+        transform: scale(1.2);
+    }
+
+    .terms-text {
+        font-size: 0.9em;
+        color: #666;
+        line-height: 1.4;
+    }
+
+    .register-btn {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .register-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(46, 125, 50, 0.3);
+    }
+
+    .register-footer {
+        text-align: center;
+        margin-top: 30px;
+        color: #666;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 768px) {
+        .register-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .register-right {
+            display: none;
+        }
+    }
+
+        /* Стили для уведомлений */
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+
+        .alert.success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .alert.error {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <!-- Левая часть - форма -->
+        <div class="register-left">
+            <div class="register-header animate-fade-in">
+                <h1>🌟 Присоединяйтесь</h1>
+                <p>Начните свой путь к здоровому образу жизни и устойчивому развитию</p>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert {{ 'success' if category == 'success' else 'error' }} animate-fade-in">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('register') }}" class="register-form animate-fade-in">
+                <div class="form-group">
+                    <span class="form-icon">👤</span>
+                    <input type="text" name="username" class="form-input" placeholder="Придумайте имя пользователя" required>
+                </div>
+
+                <div class="form-group">
+                    <span class="form-icon">📧</span>
+                    <input type="email" name="email" class="form-input" placeholder="Ваш email" required>
+                </div>
+
+                <div class="form-group">
+                    <span class="form-icon">🔒</span>
+                    <input type="password" name="password" id="password" class="form-input" placeholder="Создайте пароль" required>
+                    <div class="password-strength">
+                        <div class="strength-bar" id="strength-bar"></div>
+                    </div>
+                </div>
+
+                <div class="terms-group">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms" class="terms-text">
+                        Я соглашаюсь с <a href="#">Условиями использования</a> и 
+                        <a href="#">Политикой конфиденциальности</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="register-btn">
+                    🚀 Начать путешествие
+                </button>
+            </form>
+
+            <div class="register-footer animate-fade-in">
+                <p>Уже есть аккаунт? <a href="{{ url_for('login') }}">Войдите здесь</a></p>
+            </div>
+
+            <div class="benefits-list animate-fade-in">
+                <h3>🎁 Что вы получите:</h3>
+                <ul>
+                    <li>Персональный трекер прогресса</li>
+                    <li>Доступ к эксклюзивным статьям</li>
+                    <li>Индивидуальные планы питания и тренировок</li>
+                    <li>Сообщество единомышленников</li>
+                    <li>Эко-советы и рекомендации</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Правая часть - изображение и мотивационный текст -->
+        <div class="register-right">
+            <div style="position: relative; z-index: 2; color: white; padding: 60px; height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                <div class="animate-fade-in">
+                    <h2 style="font-size: 2.5em; margin-bottom: 20px; line-height: 1.2;">Ваше здоровье - наша миссия</h2>
+                    <p style="font-size: 1.2em; margin-bottom: 30px; opacity: 0.9;">
+                        Присоединяйтесь к сообществу, которое заботится о здоровье людей и планеты. 
+                        Вместе мы создадим лучшее будущее.
+                    </p>
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; backdrop-filter: blur(10px);">
+                            <div style="font-size: 1.5em; margin-bottom: 5px;">🌱</div>
+                            <div>Эко-советы</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; backdrop-filter: blur(10px);">
+                            <div style="font-size: 1.5em; margin-bottom: 5px;">💪</div>
+                            <div>Тренировки</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; backdrop-filter: blur(10px);">
+                            <div style="font-size: 1.5em; margin-bottom: 5px;">🥗</div>
+                            <div>Питание</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Индикатор сложности пароля
+        document.getElementById('password').addEventListener('input', function(e) {
+            const password = e.target.value;
+            const strengthBar = document.getElementById('strength-bar');
+            let strength = 0;
+            
+            if (password.length > 0) strength += 1;
+            if (password.length >= 8) strength += 1;
+            if (/[A-Z]/.test(password)) strength += 1;
+            if (/[0-9]/.test(password)) strength += 1;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+            
+            // Обновляем индикатор
+            strengthBar.className = 'strength-bar';
+            if (strength <= 2) {
+                strengthBar.classList.add('strength-weak');
+            } else if (strength <= 4) {
+                strengthBar.classList.add('strength-medium');
+            } else {
+                strengthBar.classList.add('strength-strong');
+            }
+        });
+
+        // Анимация появления элементов
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animate-fade-in');
+            animatedElements.forEach((element, index) => {
+                element.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+
+        // Валидация формы
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const terms = document.getElementById('terms').checked;
+            
+            if (!terms) {
+                e.preventDefault();
+                alert('Пожалуйста, примите условия использования');
+                return;
+            }
+            
+            if (password.length < 6) {
+                e.preventDefault();
+                alert('Пароль должен содержать минимум 6 символов');
+                return;
+            }
+        });
+    </script>
+</body>
+</html>

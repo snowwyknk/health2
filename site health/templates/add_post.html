@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить статью</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>✍️ Добавить новую статью</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Главная</a>
+            <a href="{{ url_for('show_articles') }}">Статьи</a>
+        </nav>
+    </header>
+
+    <main>
+        <form method="POST">
+            <input type="text" name="title" placeholder="Заголовок статьи" required>
+            <textarea name="content" placeholder="Текст статьи..." rows="10" required></textarea>
+            
+            
+            <input type="url" name="image_url" placeholder="Ссылка на картинку (необязательно)">
+            
+            
+            <input type="url" name="link1" placeholder="Ссылка 1 (необязательно)">
+            <input type="url" name="link2" placeholder="Ссылка 2 (необязательно)">
+            
+            <button type="submit">📤 Опубликовать</button>
+        </form>
+    </main>
+</body>
+</html>
